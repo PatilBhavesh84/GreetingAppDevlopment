@@ -1,26 +1,18 @@
 package com.bridglabz.greetingappdevlopment.model;
 
 public class Greeting {
-    String name;
-    long id;
-    public Greeting(long id, String name) {
+    private final long id;
+    private final String content;
+    public Greeting(long id, String content) {
         this.id = id;
-        this.name = name;
+        this.content = content;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getContent() {
+        return content;
     }
 }

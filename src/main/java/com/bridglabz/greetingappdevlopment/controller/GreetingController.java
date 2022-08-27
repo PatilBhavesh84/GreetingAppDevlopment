@@ -1,46 +1,57 @@
 package com.bridglabz.greetingappdevlopment.controller;
 
 import com.bridglabz.greetingappdevlopment.model.Greeting;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.bridglabz.greetingappdevlopment.model.UserData;
+import com.bridglabz.greetingappdevlopment.service.GreetingService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class GreetingController {
-    private static final String template = "Hello, %s!";
+    private static final String template ="Hello , %s!";
     private final AtomicLong counter = new AtomicLong();
 
-    /*
-    UC1-Greeting Controller for Return JSON Messages using
-    HTTP methods via @RequestParam and @PathVariable
-     */
+    /**
+     * UC1_curl -X GET "http://localhost:8080/greeting"
+     * */
     @GetMapping("/greeting")
-    public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
+    public Greeting getGreeting(@RequestParam(value = "name", defaultValue = "World") String name)
+    {
+        return new Greeting(counter.incrementAndGet(),String.format(template,name));
     }
-    //locakhost:8080/param/bhavesh
-    @GetMapping("/param/{name}")
-    public Greeting greeting1(@PathVariable String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
+    /**
+     * Post: curl http://localhost:8080/greeting
+     * @param data this {@link UserData} object
+     * */
+    @PostMapping("/greeting")
+    public Greeting getGreeting(@RequestBody UserData data){
+        Greeting g=new Greeting(5,"Hi "+data.getFirstName()+".This is POST");
+        return  g;
+    }
+    /**
+     * Post : curl http://localhost:8080/greeting/hi (In request body passing JSON object)
+     * @param data this is {@link UserData} with lastName
+     * */
+    @PostMapping("/greeting/hi")
+    public Greeting getGreetingHi(@RequestBody UserData data){
+        return new Greeting(counter.incrementAndGet(),String.format(template,data.getLastName()));
     }
 
-    /*
-    uc2-Extend GreetingController to use Service Layer to get
-    Simple Greeting message "Hello World"
-    LOCALHOST:8080/getMap
-     */
-    @GetMapping("/getMap")
-    public String getMessage() {
-        return "Hello World";
+    /** Put: curl http://localhost:8080/greeting/put?name=Bhavesh*/
+    @PutMapping("/greeting/put")
+    public Greeting putGreeting(@RequestParam(value ="name")String name){
+        return new Greeting(counter.incrementAndGet(),String.format(template,name));
     }
-    //localhost:8080/getPath/bhavesh
-    @GetMapping("/getPath/{name}")
-    public String getPath(@PathVariable String name) {
-        return "Hello " + name;
+    @GetMapping("/greet")
+    public  Greeting greeting(@RequestParam(value = "FirstName", defaultValue = "")String fname,
+                              @RequestParam(value = "LastName",defaultValue = "")String lname    )
+    {
+        UserData userData = new UserData();
+        userData.setFirstName(fname);
+        userData.setLastName(lname);
+
+        GreetingService greetingService = new GreetingService();
+        return greetingService.getGreeting(userData);
     }
 }
