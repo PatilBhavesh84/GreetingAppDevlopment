@@ -87,4 +87,13 @@ public class GreetingController {
     {
         return  greetingService.addGreeting(userData);
     }
+
+    /**UC5
+
+     */
+    @GetMapping("/greetService/{id}")
+    public Greeting greeting(@PathVariable long id)
+    {
+        return  greetingService.getGreetingById(id);
+    }
 }
