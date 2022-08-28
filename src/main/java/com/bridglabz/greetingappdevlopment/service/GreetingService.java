@@ -7,6 +7,7 @@ import com.bridglabz.greetingappdevlopment.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
@@ -36,5 +37,9 @@ public class GreetingService {
         Greeting greeting = greetingRepository.findById(id).get();
         return greeting;
 
+    }
+    public List<Greeting> getAllGreetings() {
+        List<Greeting> greetings=greetingRepository.findAll();
+        return  greetings;
     }
 }

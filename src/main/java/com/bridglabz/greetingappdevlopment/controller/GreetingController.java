@@ -6,6 +6,7 @@ import com.bridglabz.greetingappdevlopment.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
@@ -95,5 +96,13 @@ public class GreetingController {
     public Greeting greeting(@PathVariable long id)
     {
         return  greetingService.getGreetingById(id);
+    }
+    /**
+     * UC6 : Ability For The Greeting App To List All The Greeting
+     Messages In The Repository
+     * */
+    @GetMapping("/greetService")
+    public List<Greeting> greetingFindAll() {
+        return  greetingService.getAllGreetings();
     }
 }
