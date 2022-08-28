@@ -1,10 +1,11 @@
 package com.bridglabz.greetingappdevlopment.model;
 
 public class UserData {
+
     private String firstName;
     private String lastName;
 
-    public UserData( ) {
+    public UserData() {
     }
 
     public String getFirstName() {
